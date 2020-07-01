@@ -10,9 +10,10 @@ Curso propuesto por el grupo de trabajo Semana de Ingenio y Diseño (**SID**) de
 
 ## Objetivos
 
-* Reconocer la forma para realizar animaciónes de movimiento dentro de nuestro proyecto para adicionar interactividad a nuestras interfaces de usuario o mostrar mas información que el usuario requiera.
+* Reconocer la forma para realizar animaciónes de movimiento dentro de nuestro proyecto para adicionar interactividad a las interfaces de usuario o mostrar información adicional que el usuario requiera.
 * Identificar algunos factores importantes que intervienen cuando se realizan animaciónes como los objetos y eventos que intervienen.
 * Explicar algunas particularidades clave a la hora de usar animaciones que son importantes para el buen funcionamiento.
+* Explorar varios enfoques para realizar una misma animación pero en distintas formas.
 
 # Antes de Comenzar
 
@@ -27,7 +28,7 @@ Recordando un poco nuestro recorrido en la clase anterior revisamos el uso de ta
 
 # Uso de animaciones
 
-Esta sesión tratará el tema de animaciones de movimiento sobre nuestras interfaces y para la explicación e implementación de estas se verán n items:
+Esta sesión tratará el tema de animaciones de movimiento sobre nuestras interfaces y para la explicación e implementación de estas se verán 4 items:
 * **Animaciones para Interactividad.**
     * **Particularidades con las animaciones.**
 * **Animaciones para muestra de información.**
@@ -49,11 +50,11 @@ Lo que queremos es que una vez se oprima alguno de estos botones se muestre una 
     <p>Imagen dentro del login que quiere ser cambiada</p>
 </div>
 
-Pero para no hacer que esta desaparezca de golpe para mostrar la siguiente podemos utilizar **Animaciones** para que esta se mueva a la izquierda y asi la nueva imagen pueda verse en pantalla. Para realizar esto antes debemos hacer algunos preparativos.
+Pero para no hacer que esta desaparezca de golpe una vez se muestre la siguiente imágen podemos utilizar **Animaciones**, de esta forma podemos hacer que se mueva a la izquierda la imagén actual y asi la nueva imagen pueda verse en pantalla. Para realizar esto antes debemos hacer algunos preparativos.
 
 ### **Preparativos para realizar la animación**.
 
-Como vamos a añadir otras dos imágenes (para la segunda y tercera opción) vamos a crear los objetos **ImageIcon** de estas dentro de nuestra clase **LoginTemplate**. También vamos a añadir una nueva imagen para los botones de las opciones la cual representara cual de las 3 opciones esta seleccionada.
+Como vamos a añadir otras dos imágenes (para la segunda y tercera opción) vamos a crear los objetos **ImageIcon** de estas dentro de nuestra clase **LoginTemplate**. También vamos a añadir una nueva imagen para los botones de las opciones la cual representará cual de las 3 opciones esta siendo seleccionada.
 
 * **Declaración:**
 ```javascript
@@ -91,7 +92,7 @@ pSvg = sObjGraficos.construirJPanel(
 pIzquierda.add(pSvg);
 ```
 
-Note algo importante, el color de fondo que le hemos configurado es un color **rgba o transparente** ya que tiene 4 argumentos, todos en 0, esto quiere decir que el color sera "negro" pero totalmente transparente, ya que el ultimo argumento **Alfa** esta en 0 lo cual quiere decir que tendrá transparencia total, caso contrario es un color solido el cual debería tener 255 en ese argumento. También podemos notar que el panel no se esta agregando directamente a la ventana sino al panel **pIzquierda**. También hay que recalcar su tamaño, ya que su ancho es bastante grande, esto para contener las 3 imágenes, sin embargo solo sera visible una parte de este en pantalla.
+Note algo importante, el color de fondo que le hemos configurado es un color **rgba o transparente** ya que tiene 4 argumentos, todos en 0, esto quiere decir que el color sera "negro" pero totalmente transparente, ya que el ultimo argumento **Alfa** esta en 0 (transparencia total), caso contrario es un color solido el cual debería tener 255 en ese argumento. También podemos notar que el panel no se esta agregando directamente a la ventana sino al panel **pIzquierda**. Además hay que recalcar su tamaño, ya que su ancho es bastante grande, esto para contener las 3 imágenes, sin embargo solo será visible una parte de este en pantalla.
 
 Allí vamos a dejar nuestros Labels que contienen las imágenes **Svg** así que eso realizaremos:
 
@@ -122,7 +123,7 @@ pSvg.add(lSvg3);
 
 Para el Label **lSvg** se agrego ahora al nuevo panel **pSvg** y ya no directamente al panel **pDerecha**, también se cambio las coordenadas de posición, los otros dos label se agregaron al mismo panel.
 
-Vamos ahora a cambiar la imagen del primer botón por la imágen que indica que esta opción esta seleccionada ya que por defecto la primera opción ya esta seleccionada (La primera imagen ya se esta mostrando) Para los demás botones dejaremos la imagen que tenían originalmente pero le agregaremos la escucha de eventos **ActionListener** ya que esta solo la tenía el primer botón.
+Vamos ahora a cambiar la imagen del primer botón por la imágen que indica que esta opción esta seleccionada ya que por defecto la primera opción ya esta seleccionada (La primera imagen ya se esta mostrando). Para los demás botones dejaremos la imagen que tenían originalmente pero le agregaremos la escucha de eventos **ActionListener** ya que esta solo la tenía el primer botón.
 
 ```javascript
 // Dentro del método crearJButtons
@@ -168,7 +169,9 @@ Nuestra aplicación se ve de la siguiente manera:
 
 Por ahora el único cambio visible esta en el primer botón de opciones ya que resalta en naranja. Las otras imágenes ya están añadidas al panel **pSvg** pero como comentamos solo se esta viendo una parte de este panel.
 
-Ahora y para finalizar con nuestra clase **LoginTemplate** vamos a crear algunos métodos **get**, como vamos a manipular la posición del panel **pSvg** vamos a necesitar obtenerlo desde la clase **loginComponent**:
+Ahora vamos a crear algunos métodos **get**.
+
+Como vamos a manipular la posición del panel **pSvg** vamos a necesitar obtenerlo desde la clase **loginComponent**:
 
 ```javascript
 public JPanel getPSvg(){
@@ -208,7 +211,7 @@ public JButton getBOpcion(int boton){
 }
 ```
 
-Por ultimo vamos a prevenir un futuro conflicto que tiene que ver con el eje Z y es que si recordamos un poco el panel que contiene las imágenes se agrego dentro del método **crearJPanels** y por otro lado los botónes de opciones se agregaron dentro del método **crearJButtons**. La creación de los paneles se llama dentro del constructor antes de la creación de los botones, esto inicialmente no crea ningún conflicto ya que el panel **pSvg** esta en la posición **100px** de nuestro panel **pIzquierda** mientras que los botones **bOpcion** están en la posición **10px** del mismo, pero una vez se mueva el panel **pSvg** hacia la izquierda para crear la animación este va a situarse por encima de los botones haciendo que las imágenes los tapen mientras pasan sobre ellos y ademas no se podrán seleccionar mas ya que estarán detrás del panel. Para arreglar esta situación vamos a sacar la agregación de este ultimo panel (**pSvg**) del método de crearJPanels y lo vamos añadir dentro del constructor justo después de la creación de los botones pero justo antes de la creación de los labels:
+Por ultimo vamos a prevenir un futuro conflicto que tiene que ver con **el eje Z** y es que si recordamos un poco el panel que contiene las imágenes se agrego dentro del método **crearJPanels** y por otro lado los botónes de opciones se agregaron dentro del método **crearJButtons**. La creación de los paneles se llama dentro del constructor antes de la creación de los botones, esto inicialmente no crea ningún conflicto ya que el panel **pSvg** esta en la posición **100px** de nuestro panel **pIzquierda** mientras que los botones **bOpcion** están en la posición **10px** del mismo, pero una vez se mueva el panel **pSvg** hacia la izquierda para crear la animación este va a situarse por encima de los botones haciendo que las imágenes los tapen mientras pasan sobre ellos y ademas no se podrán seleccionar mas ya que estarán detrás del panel. Para arreglar esta situación vamos a sacar la agregación de este ultimo panel (**pSvg**) del método de crearJPanels y lo vamos añadir dentro del constructor justo después de la creación de los botones pero justo antes de la creación de los labels:
 
 <div align='center'>
     <img  src='https://i.imgur.com/wS010oh.png'>
@@ -369,7 +372,7 @@ public void actionPerformed(ActionEvent e) {
 }
 ```
 
-Ahora vamos a crear el método que se encargara de darle movimiento a las imágenes, la llamaremos **moverImagenes**:
+Ahora vamos a crear el método que se encargará de darle movimiento a las imágenes, la llamaremos **moverImagenes**:
 
 ```javascript
 private void moverImagenes(){
@@ -453,7 +456,7 @@ private void moverImagenes(){
 }
 ```
 
-Para los tres casos el movimiento sera unicamente horizontal por lo que el eje Y no se alterara, así que vamos a dejar esa configuración en los tres casos y dejaremos el espació para el eje X que si cambiara para cada caso, para obtener su posición en el eje Y basta con llamar al método **getY**:
+Para los tres casos el movimiento sera unicamente horizontal por lo que el eje Y no se alterará, así que vamos a dejar esa configuración en los tres casos igual y dejaremos el espació para el eje X que si cambiara para cada caso, para obtener su posición en el eje Y basta con llamar al método **getY**:
 
 ```javascript
 private void moverImagenes(){
@@ -768,7 +771,7 @@ Ahora bien la animación estará enfocada en las tarjetas, sin embargo son 6 tar
 private JPanel pTarjetas;
 ```
 
-Ahora vamos a terminar la creación de los paneles que acabamos de declarar y ademas vamos a cambiar la agregación de los paneles que anteriormente habíamos agregado **pMision, pVision, pNosotros**.
+Ahora vamos a terminar la creación de los paneles que acabamos de declarar y ademas vamos a cambiar la agregación de los paneles que anteriormente habíamos agregado directamente al componente (**pMision, pVision, pNosotros**) ahora se agregaran al panel **pTarjetas** también.
 
 ```javascript
 public void crearJPanels(){
@@ -849,11 +852,11 @@ public void crearJButtons(){
     this.add(bDerecha);
 }
 ```
-Podemos notar que estos Botones se están agregando directamente al panel del componente y no a otro panel creado en el componente, también notamos que se esta agregando de una vez la escucha a eventos **ActionListener** sin embargo nuestra clase **component** aun no ha implementado esta interfaz, esto provocara un error asi que por ahora podemos dejar comentada esas dos lineas de código y en la siguiente sección corregiremos el error.
+Podemos notar que estos Botones se están agregando directamente al componente y no a otro panel creado en el, también notamos que se esta agregando de una vez la escucha a eventos **ActionListener** sin embargo nuestra clase **InicioComponent** aun no ha implementado esta interfaz, esto provocará un error asi que por ahora podemos dejar comentada esas dos lineas de código y en la siguiente sección corregiremos el error.
 
 * **Llamada del método dentro del constructor:**
 
-Para evitar conflictos en el eje Z vamos y para que los botones permanezcan siempre encima de las tarjetas vamos a llamar este método dentro del constructor antes de la construcción de los paneles.
+Para evitar conflictos en el eje Z y para que los botones permanezcan siempre encima de las tarjetas vamos a llamar este método dentro del constructor antes de la construcción de los paneles.
 
 ```javascript
 public InicioTemplate(InicioComponent inicioComponent){
@@ -870,7 +873,7 @@ public InicioTemplate(InicioComponent inicioComponent){
 }
 ```
 
-Vamos a crear las otras 3 tarjetas de la misma manera que hicimos con las 3 anteriores, vamos a crear un método por cada una, podríamos realizar la automatización de estas a traves del uso de servicios pero para no hacer mas larga la sesión continuaremos con el modelo que tenia la aplicación:
+Se van a crear las otras 3 tarjetas de la misma manera que hicimos con las 3 anteriores, así que se va a crear un método por cada una, podríamos realizar la automatización de estas a traves del uso de servicios pero para no hacer mas larga la sesión continuaremos con el modelo que tenia la aplicación:
 
 * **Tarjeta Usuarios:**
 
@@ -921,7 +924,7 @@ this.crearContenidoPGrupo();
 this.crearContenidoPAcciones();
 ```
 
-Nuestra aplicación al ejecutarla se vera asi:
+Nuestra aplicación al ejecutarla se verá asi:
 
 <div align='center'>
     <img  src='https://i.imgur.com/FEEiANa.png'>
@@ -963,7 +966,7 @@ public void actionPerformed(ActionEvent e) {
 }
 ```
 
-Esto nos debe quitar el error que teníamos en la clase InicioTemplate con la adición de la escucha de estos eventos en los botones asi que podemos descomentarlos.
+Esto nos debe quitar el error que teníamos en la clase **InicioTemplate** con la adición de la escucha de estos eventos en los botones asi que podemos descomentarlos.
 
 Ahora vamos a crear el objeto **Timer** que es el encargado de gestionar la animación.
 
@@ -999,7 +1002,7 @@ public void actionPerformed(ActionEvent e) {
 
 Dentro de cada condicional vamos a configurar la direccion pero hay que tener algo de cuidado ya que el movimiento que queremos hacer esta cruzado, es decir:
 * Cuando oprimamos el boton **bDerecha** queremos ver las tarjetas que están más a la derecha esto quiere decir que debemos correr el panel a la izquierda (-1).
-* Cuando oprimamos el boton **bIzquierda** queremos ver las tarjetas que están más a la izquierda esto quiere decir que debemos correr el panel a la derecha (-1).
+* Cuando oprimamos el boton **bIzquierda** queremos ver las tarjetas que están más a la izquierda esto quiere decir que debemos correr el panel a la derecha (1).
 
 ```javascript
 @Override
@@ -1011,7 +1014,7 @@ public void actionPerformed(ActionEvent e) {
 }
 ```
 
-Ahora antes de que empiece la animación queremos en ambos casos capturar la posición inicial de donde se encuentra el panel **pTarjeta** asi que lo pondremos debajo de los condicionales. Recordemos que para capturar la posición en el eje X (nuevamente es el único eje que nos interesa por que solo habrá movimiento sobre este eje) debemos llamar al método **getX**.
+Ahora antes de que empiece la animación queremos en ambos casos capturar la posición inicial de donde se encuentra el panel **pTarjeta** asi que lo pondremos debajo de los condicionales. Recordemos que para capturar la posición en el eje X (nuevamente es el único eje que nos interesa por que solo habrá movimiento sobre este) debemos llamar al método **getX**.
 
 ```javascript
 @Override
@@ -1038,7 +1041,7 @@ public void actionPerformed(ActionEvent e) {
 }
 ```
 
-Como se explico previamente debemos tener cuidado con las instrucciones que no están bajo una condición dentro del **ActionPerformed** y que no queremos que se repitan, este es el caso de las dos ultimas instrucciones ya que solo necesitamos capturar la configuración inicial una vez o de lo contrario esta se actualizara todo el tiempo, también queremos activar el timer una sola vez cada que se oprime cualquiera de los botones. Para esto los envolveremos en una discriminación de clases.
+Como se explico previamente debemos tener cuidado con las instrucciones que no están bajo una condición dentro del **ActionPerformed** y que no queremos que se repitan, este es el caso de las dos ultimas instrucciones ya que solo necesitamos capturar la **posición inicial** una vez o de lo contrario esta se actualizara todo el tiempo, también queremos activar el timer una sola vez cada que se oprime cualquiera de los botones. Para esto los envolveremos en una discriminación de clases.
 
 ```javascript
 @Override
@@ -1059,7 +1062,7 @@ Es hora de crear el método que se encargara de la animación pero vamos a crear
 ## Enfoques de animación.
 
 A continuación vamos a realizar dos enfoques de animaciónes:
-* El primero mostrara las otras 3 tarjetas una vez se oprima el boton de la derecha y volverá a mostrar las 3 tarjetas anteriores una vez se oprima el botón de la izquierda, es decir que solo habrá un movimiento para mostrar las 3 primeras tarjetas o las 3 ultimas.
+* El primero mostrará las otras 3 tarjetas una vez se oprima el boton de la derecha y volverá a mostrar las 3 tarjetas anteriores una vez se oprima el botón de la izquierda, es decir que solo habrá un movimiento para mostrar las 3 primeras tarjetas o las 3 ultimas.
 * El segundo ira recorriendo las tarjetas pero moviendo en tramos cortos ya sea a la izquierda o derecha, esto quiere decir que para mostrar completamente las tarjetas que están de ultimas se deberá oprimir varias veces el boton de la derecha, igualmente en el caso contrario.
 
 Para esto vamos a crear dos métodos:
@@ -1160,7 +1163,7 @@ Una vez corramos nuestra aplicación veremos algo como esto:
 
 Ahora nos concentraremos en el método **moverTarjetas2**, recordemos que en este no queremos mostrar las otras tarjetas en una sola animación sino que vamos a recorrer todo el panel **pTarjetas** en tramos.
 
-Podemos guiar del anterior método implementado que usaba los **Puntos de frenos** ya que los limites serán los mismos para ambos casos sin embargo para este caso este no sera nuestros **Puntos de freno** son solo los limites, asi que en lugar de parar la animación vamos a indicarle al programa que en esos casos no realice nada, esto con la instrucción **assert true**:
+Podemos guiarnos del anterior método implementado que usaba los **Puntos de frenos** ya que los limites serán los mismos para ambos casos sin embargo para este caso este no sera nuestros **Puntos de freno** son solo los limites, asi que en lugar de parar la animación vamos a indicarle al programa que en esos casos no realice nada, esto con la instrucción **assert true**:
 
 ```javascript
 public void moverTarjetas2(){
@@ -1191,7 +1194,7 @@ public void moverTarjetas2(){
 }
 ```
 
-En este caso queremos que cada vez que oprimamos el botón **bDerecha o bIzquierda** el panel tenga un movimiento horizontal de **200px** ya sea a la izquierda o derecha. Asi que nuestros **Puntos de freno** serán cuando el panel **pTarjetas** se haya corrido esta cantidad de pixeles. Para poder reconocer si el panel recorrió esta cantidad necesitamos de nuestro atributo **posicionInicial** que se configuro previamente en el **ActionPerformed**:
+En este caso queremos que cada vez que oprimamos el botón **bDerecha o bIzquierda** el panel tenga un movimiento horizontal de **200px** ya sea a la izquierda o derecha. Asi que nuestros **Puntos de freno** serán cuando el panel **pTarjetas** haya recorrido esta cantidad de pixeles. Para poder reconocer si el panel recorrió esta cantidad necesitamos de nuestro atributo **posicionInicial** que se configuro previamente en el **ActionPerformed**:
 
 ```javascript
 public void moverTarjetas2(){
@@ -1209,7 +1212,6 @@ public void moverTarjetas2(){
         else
         
     }
-    inicioTemplate.repaint();
 }
 ```
 
@@ -1233,7 +1235,6 @@ public void moverTarjetas2(){
                 inicioTemplate.getPTarjetas().getX() + direccion, inicioTemplate.getPTarjetas().getY()
             );
     }
-    inicioTemplate.repaint();
 }
 ```
 
@@ -1262,7 +1263,7 @@ public void moverTarjetas2(){
 ```
 
 
-Finalmente para probar este enfoque vamos a llamar ahora a este método, quitando la llamada del anterior:
+Finalmente para probar este enfoque vamos a llamar ahora a este método, quitando la llamada del anterior en el **ActionPerformed**:
 
 <div align='center'>
     <img  src='https://i.imgur.com/lO3WvQk.png'>
@@ -1278,9 +1279,9 @@ Nuestra animación se vera así:
 
 # Resultado
 
-Si llegaste hasta aquí **!Felicidades!** has aprendido a crear animaciones con ayuda del objeto **Timer** ademas aprendiste algunas particularidades sobre el uso de este para crear animaciones, Vimos varios usos de las animaciónes. Revisamos finalmente varios enfoques para realizar una misma animación. Ahora es turno de que implementes estos conocimientos, la imaginación es el limite. 
+Si llegaste hasta aquí **!Felicidades!** has aprendido a crear animaciones con ayuda del objeto **Timer**, ademas aprendiste algunas particularidades sobre el uso de este para crear animaciones. Vimos varios usos de las animaciónes y revisamos finalmente varios enfoques para realizar una misma animación. Ahora es turno de que implementes estos conocimientos, la imaginación es el limite. 
 
-En la siguiente sesión vamos a ver como dibujar formas textos imágenes y demás a traves de un lienzo conocido como **Canvas**.
+En la siguiente sesión vamos a ver como dibujar formas, textos, imágenes y demás a traves de un lienzo conocido como **Canvas**.
 
 # Actividad
 
