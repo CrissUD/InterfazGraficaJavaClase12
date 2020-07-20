@@ -22,7 +22,7 @@ Para continuar con el ejercicio deberá actualizar la carpeta **resources/img** 
 Recordando un poco nuestro recorrido en la clase anterior revisamos el uso de tablas para gestionar información, entre otras cosas se mostró **Las principales partes para la creación de una tabla**, **Los métodos de gestión de información dentro de tablas**, **Personalización de tablas**.
 
 <div align='center'>
-    <img  src='https://i.imgur.com/yByBis9.png'>
+    <img  src='https://i.imgur.com/K8JYhqm.png'>
     <p>Resultado de la clase anterior con el uso de tablas.</p>
 </div>
 
